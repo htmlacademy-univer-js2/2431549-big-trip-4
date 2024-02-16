@@ -1,10 +1,10 @@
 import { createElement } from '../render.js';
 
-const newPointTemplate = ``;
+const eventListTemplate = `<ul class="trip-events__list"></ul>`;
 
-export default class AddNewPointView {
+export default class EventListView {
   getTemplate() {
-    return newPointTemplate;
+    return eventListTemplate;
   }
 
   getElement() {
