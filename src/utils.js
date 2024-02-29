@@ -40,25 +40,7 @@ const getPointDuration = (dateFrom, dateTo) => {
   }
 };
 
-let date = dayjs().subtract(getRandomInteger(0, Duration.DAY), 'day').toDate();
-
-const getDate = ({ next }) => {
-  const minsGap = getRandomInteger(0, Duration.MIN);
-  const hoursGap = getRandomInteger(1, Duration.HOUR);
-  const daysGap = getRandomInteger(0, Duration.DAY);
-
-  if (next) {
-    date = dayjs(date)
-      .add(minsGap, 'minute')
-      .add(hoursGap, 'hour')
-      .add(daysGap, 'day')
-      .toDate();
-  }
-
-  return date;
-};
-
 export {
   getRandomImageURL, getRandomLoremSentence, getRandomInteger, getRandomElement,
-  getDate, getPointDuration, capitalize, formatStringToShortDate, formatStringToTime
+  getPointDuration, capitalize, formatStringToShortDate, formatStringToTime
 };
