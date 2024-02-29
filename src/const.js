@@ -45,8 +45,22 @@ const TYPES = [
   { title: 'Train', img: 'img/icons/train.png' }
 ];
 
+const OFFERS = [
+  'Add a child safety seat',
+  'Stay overnight',
+  'Add lunch',
+  'Rent a polaroid',
+  'Add a place for a pet',
+  'Book a window seat',
+  'Book a place in the recreation area',
+  'Use the translator service',
+  'Upgrade to a business class'
+];
+
+const POINT_COUNT = 20;
+
 export {
   LOREM_SENTENCES, RANDOM_IMG_URL,
   MSEC_IN_DAY, MSEC_IN_HOUR,
-  Price, Duration, CITIES, TYPES
+  Price, Duration, CITIES, TYPES, OFFERS, POINT_COUNT
 };

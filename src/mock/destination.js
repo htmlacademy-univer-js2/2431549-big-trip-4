@@ -10,7 +10,7 @@ const generateDestination = () => {
     description: getRandomLoremSentence(),
     pictures: [
       {
-        'src': getRandomImageURL,
+        'src': getRandomImageURL(),
         'description': `${city}`
       }
     ]

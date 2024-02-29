@@ -40,7 +40,7 @@ const getPointDuration = (dateFrom, dateTo) => {
   }
 };
 
-let date = dayjs.subtract(getRandomInteger(0, Duration.DAY), 'day').toDate();
+let date = dayjs().subtract(getRandomInteger(0, Duration.DAY), 'day').toDate();
 
 const getDate = ({ next }) => {
   const minsGap = getRandomInteger(0, Duration.MIN);

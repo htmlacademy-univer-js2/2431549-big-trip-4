@@ -39,6 +39,10 @@ const pointTemplate = `<li class="trip-events__item">
 </li>`;
 
 export default class PointView {
+  constructor(point) {
+    this.point = point;
+  }
+
   getTemplate() {
     return pointTemplate;
   }
