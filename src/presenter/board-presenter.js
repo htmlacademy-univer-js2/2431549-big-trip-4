@@ -3,6 +3,7 @@ import EditPointView from '../view/edit-point-view.js';
 import EventListView from '../view/event-list-view.js';
 import SortView from '../view/sort-view.js';
 import PointView from '../view/point-view.js';
+import { generatePoint } from '../mock/point.js';
 
 export default class BoardPresenter {
   eventListComponent = new EventListView();
@@ -18,7 +19,7 @@ export default class BoardPresenter {
     render(new SortView(), this.container);
     render(this.eventListComponent, this.container);
 
-    render(new EditPointView(), this.eventListComponent.getElement());
+    render(new EditPointView(generatePoint()), this.eventListComponent.getElement());
 
     this.points.forEach((point) => {
       const newPoint = new PointView(point);

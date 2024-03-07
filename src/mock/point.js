@@ -1,7 +1,8 @@
 import { getRandomElement, getRandomInteger } from '../utils.js';
-import { CITIES, Price, TYPES, Duration } from '../const.js';
+import { Price, TYPES, Duration } from '../const.js';
 import dayjs from 'dayjs';
 import { generateOffer } from './offer.js';
+import { generateDestination } from './destination.js';
 
 let date = dayjs().subtract(getRandomInteger(0, Duration.DAY), 'day').toDate();
 
@@ -25,7 +26,7 @@ const generatePoint = () => ({
   basePrice: getRandomInteger(Price.MIN, Price.MAX),
   dateFrom: getDate({ next: false }),
   dateTo: getDate({ next: true }),
-  destination: getRandomElement(CITIES),
+  destination: generateDestination(),
   isFavorite: getRandomInteger(0, 1),
   offers: generateOffer(crypto.randomUUID()),
   type: getRandomElement(TYPES)
