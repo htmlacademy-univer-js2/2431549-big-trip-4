@@ -1,20 +1,20 @@
 import { createElement } from '../render.js';
-import { getPointDuration } from '../utils.js';
+import { formatStringToShortDate, getPointDuration, formatStringToTime } from '../utils.js';
 
 const getPointTemplate = (point) => `<li class="trip-events__item">
 <div class="event">
-  <time class="event__date" datetime="2019-03-18">${'MAR 18'}</time>
+  <time class="event__date" datetime="2019-03-18">${formatStringToShortDate(point.dateFrom)}</time>
   <div class="event__type">
     <img class="event__type-icon" width="42" height="42" src="${point.type.img}" alt="Event type icon">
   </div>
   <h3 class="event__title">${point.type.title} ${point.destination}</h3>
   <div class="event__schedule">
     <p class="event__time">
-      <time class="event__start-time" datetime="2019-03-18T10:30">${point.timeFrom}</time>
+      <time class="event__start-time" datetime="2019-03-18T10:30">${formatStringToTime(point.dateFrom)}</time>
       &mdash;
-      <time class="event__end-time" datetime="2019-03-18T11:00">${point.timeTo}</time>
+      <time class="event__end-time" datetime="2019-03-18T11:00">${formatStringToTime(point.dateTo)}</time>
     </p>
-    <p class="event__duration">${'getPointDuration(point.timeFrom, point.timeTo)'}</p>
+    <p class="event__duration">${getPointDuration(point.dateFrom, point.dateTo)}</p>
   </div>
   <p class="event__price">
     &euro;&nbsp;<span class="event__price-value">${point.basePrice}</span>

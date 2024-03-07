@@ -29,15 +29,17 @@ const getPointDuration = (dateFrom, dateTo) => {
 
   switch (true) {
     case (timeDiff > MSEC_IN_DAY):
-      pointDuration = dayjs.duration(timeDiff).format('DD[D] HH[H] mm[M]');
+      pointDuration = dayjs(timeDiff).format('DD[D] HH[H] mm[M]');
       break;
     case (timeDiff >= MSEC_IN_HOUR):
-      pointDuration = dayjs.duration(timeDiff).format('HH[H] mm[M]');
+      pointDuration = dayjs(timeDiff).format('HH[H] mm[M]');
       break;
     case (timeDiff < MSEC_IN_HOUR):
-      pointDuration = dayjs.duration(timeDiff).format('mm[M]');
+      pointDuration = dayjs(timeDiff).format('mm[M]');
       break;
   }
+
+  return pointDuration;
 };
 
 export {
