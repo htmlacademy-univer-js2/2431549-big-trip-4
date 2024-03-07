@@ -28,7 +28,7 @@ const generatePoint = () => ({
   dateTo: getDate({ next: true }),
   destination: generateDestination(),
   isFavorite: getRandomInteger(0, 1),
-  offers: generateOffer(crypto.randomUUID()),
+  offers: [generateOffer(crypto.randomUUID())],
   type: getRandomElement(TYPES)
 });
 
