@@ -1,12 +1,12 @@
 import { createElement } from '../render.js';
 
-const getOfferTemplate = (point) => `<div class="event__available-offers">
+const getOfferTemplate = (offer) => `<div class="event__available-offers">
 <div class="event__offer-selector">
   <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
   <label class="event__offer-label" for="event-offer-luggage-1">
-    <span class="event__offer-title">${point.offers[0].title}</span>
+    <span class="event__offer-title">${offer.title}</span>
     &plus;&euro;&nbsp;
-    <span class="event__offer-price">${point.offers[0].price}</span>
+    <span class="event__offer-price">${offer.price}</span>
   </label>
 </div>`;
 
@@ -109,7 +109,7 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
   <section class="event__details">
     <section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-      ${getOfferTemplate(point)}
+      ${getOfferTemplate(point.offers[0])}
     </section>
     <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>

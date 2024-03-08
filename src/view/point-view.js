@@ -22,9 +22,9 @@ const getPointTemplate = (point) => `<li class="trip-events__item">
   <h4 class="visually-hidden">Offers:</h4>
   <ul class="event__selected-offers">
     <li class="event__offer">
-      <span class="event__offer-title">${point.offers.title}</span>
+      <span class="event__offer-title">${point.offers[0].title}</span>
       &plus;&euro;&nbsp;
-      <span class="event__offer-price">${point.offers.price}</span>
+      <span class="event__offer-price">${point.offers[0].price}</span>
     </li>
   </ul>
   <button class="event__favorite-btn ${point.isFavorite
