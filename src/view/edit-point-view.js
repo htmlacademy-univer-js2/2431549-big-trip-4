@@ -120,7 +120,12 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
 </li>`;
 
 export default class EditPointView extends AbstractView {
+  constructor(point) {
+    super();
+    this._point = point;
+  }
+
   get template() {
-    return getEditPointTemplate(this.point);
+    return getEditPointTemplate(this._point);
   }
 }

@@ -41,6 +41,11 @@ const getPointTemplate = (point) => `<li class="trip-events__item">
 </li>`;
 
 export default class PointView extends AbstractView {
+  constructor(point) {
+    super();
+    this.point = point;
+  }
+
   get template() {
     return getPointTemplate(this.point);
   }
