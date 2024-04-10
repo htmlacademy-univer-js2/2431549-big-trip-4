@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const getOfferTemplate = (offer) => `<div class="event__available-offers">
 <div class="event__offer-selector">
@@ -119,24 +119,8 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
 </form>
 </li>`;
 
-export default class EditPointView {
-  constructor(point) {
-    this.point = point;
-  }
-
-  getTemplate() {
+export default class EditPointView extends AbstractView {
+  get template() {
     return getEditPointTemplate(this.point);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }
