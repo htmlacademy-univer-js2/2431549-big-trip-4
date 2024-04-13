@@ -42,7 +42,24 @@ const getPointDuration = (dateFrom, dateTo) => {
   return pointDuration;
 };
 
+const isPointInTheFuture = (point) => point.dateFrom.isAfter(dayjs());
+
+const isPointInThePast = (point) => {
+  const currentDate = dayjs(); const isStartDateBeforeOrEqual = point.dateFrom.isBefore(currentDate) || point.dateFrom.isSame(currentDate);
+  const isEndDateAfterOrEqual = point.dateTo.isAfter(currentDate) || point.dateTo.isSame(currentDate);
+
+  return isStartDateBeforeOrEqual && isEndDateAfterOrEqual;
+};
+
+const isPointInThePresent = (point) => point.dateTo.isBefore(dayjs());
+
+/* Everything — полный список точек маршрута;
+Future — список запланированных точек маршрута, т. е. точек, у которых дата начала события больше текущей даты;
+Present — список текущих точек маршрута, т. е. точек, у которых дата начала события меньше (или равна) текущей даты, а дата окончания больше (или равна) текущей даты;
+Past — список пройденных точек маршрута, т. е. точек у которых дата окончания маршрута меньше, чем текущая. */
+
 export {
   getRandomImageURL, getRandomLoremSentence, getRandomInteger, getRandomElement,
-  getPointDuration, capitalize, formatStringToShortDate, formatStringToTime
+  getPointDuration, capitalize, formatStringToShortDate, formatStringToTime,
+  isPointInThePresent, isPointInTheFuture, isPointInThePast
 };
