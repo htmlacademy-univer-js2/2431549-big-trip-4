@@ -120,12 +120,25 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
 </li>`;
 
 export default class EditPointView extends AbstractView {
-  constructor(point) {
+  #point = null;
+  #handleFormSubmit = null;
+
+  constructor({ point, onFormSubmit }) {
     super();
-    this._point = point;
+    this.#point = point;
+    this.#handleFormSubmit = onFormSubmit;
+
+    this.element.querySelector('form')
+      .addEventListener('submit', this.#formSubmitHandler);
   }
 
   get template() {
-    return getEditPointTemplate(this._point);
+    return getEditPointTemplate(this.#point);
   }
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
+
 }
