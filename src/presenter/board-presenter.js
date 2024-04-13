@@ -3,6 +3,7 @@ import EventListView from '../view/event-list-view.js';
 import SortView from '../view/sort-view.js';
 import PointView from '../view/point-view.js';
 import EditPointView from '../view/edit-point-view.js';
+import NoPointsView from '../view/no-points-view.js';
 
 export default class BoardPresenter {
   #container = null;
@@ -62,5 +63,9 @@ export default class BoardPresenter {
     render(this.eventListComponent, this.#container);
 
     this.#boardPoints.forEach((point) => this.#renderPoint(point));
+
+    if (this.#boardPoints.length === 0) {
+      render(new NoPointsView, this.eventListComponent.element);
+    }
   }
 }
