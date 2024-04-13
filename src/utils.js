@@ -42,16 +42,17 @@ const getPointDuration = (dateFrom, dateTo) => {
   return pointDuration;
 };
 
-const isPointInTheFuture = (point) => point.dateFrom.isAfter(dayjs());
+const isPointInTheFuture = (point) => dayjs(point.dateFrom).isAfter(dayjs());
 
 const isPointInThePast = (point) => {
-  const currentDate = dayjs(); const isStartDateBeforeOrEqual = point.dateFrom.isBefore(currentDate) || point.dateFrom.isSame(currentDate);
-  const isEndDateAfterOrEqual = point.dateTo.isAfter(currentDate) || point.dateTo.isSame(currentDate);
+  const currentDate = dayjs();
+  const isStartDateBeforeOrEqual = dayjs(point.dateFrom).isBefore(currentDate) || dayjs(point.dateFrom).isSame(currentDate);
+  const isEndDateAfterOrEqual = dayjs(point.dateTo).isAfter(currentDate) || dayjs(point.dateTo).isSame(currentDate);
 
   return isStartDateBeforeOrEqual && isEndDateAfterOrEqual;
 };
 
-const isPointInThePresent = (point) => point.dateTo.isBefore(dayjs());
+const isPointInThePresent = (point) => dayjs(point.dateTo).isBefore(dayjs());
 
 /* Everything — полный список точек маршрута;
 Future — список запланированных точек маршрута, т. е. точек, у которых дата начала события больше текущей даты;

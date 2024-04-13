@@ -1,11 +1,10 @@
-import { FilterType } from '../const.js';
-import { isPointInTheFuture, isPointInThePast, isPointInThePresent } from '../utils.js';
+import { filter } from '../filter.js';
 
-const filter = {
-  [FilterType.EVERYTHING]: (points) => points,
-  [FilterType.FUTURE]: (points) => points.filter((point) => isPointInTheFuture(point)),
-  [FilterType.PRESENT]: (points) => points.filter((point) => isPointInThePresent(point)),
-  [FilterType.PAST]: (points) => points.filter((point) => isPointInThePast(point))
-};
+const generateFilter = (points) => Object.entries(filter).map(
+  ([filterType, filterTasks]) => ({
+    type: filterType,
+    count: filterTasks(points).length,
+  }),
+);
 
-export { filter };
+export { generateFilter };
