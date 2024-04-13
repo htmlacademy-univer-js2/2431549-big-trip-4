@@ -54,11 +54,6 @@ const isPointInThePast = (point) => {
 
 const isPointInThePresent = (point) => dayjs(point.dateTo).isBefore(dayjs());
 
-/* Everything — полный список точек маршрута;
-Future — список запланированных точек маршрута, т. е. точек, у которых дата начала события больше текущей даты;
-Present — список текущих точек маршрута, т. е. точек, у которых дата начала события меньше (или равна) текущей даты, а дата окончания больше (или равна) текущей даты;
-Past — список пройденных точек маршрута, т. е. точек у которых дата окончания маршрута меньше, чем текущая. */
-
 export {
   getRandomImageURL, getRandomLoremSentence, getRandomInteger, getRandomElement,
   getPointDuration, capitalize, formatStringToShortDate, formatStringToTime,
