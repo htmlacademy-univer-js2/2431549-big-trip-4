@@ -15,8 +15,6 @@ const createFilterTemplate = (filterItems) => {
   const filterItemsTemplate = filterItems
     .map((filter) => createFilterItemTemplate(filter))
     .join('');
-
-  console.log(filterItemsTemplate)
   return (
     `<form class="trip-filters" action = "#" method = "get" >
   ${filterItemsTemplate}</form >`);

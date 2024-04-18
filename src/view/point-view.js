@@ -43,6 +43,7 @@ const getPointTemplate = (point) => `<li class="trip-events__item">
 export default class PointView extends AbstractView {
   #point = null;
   #handleEditClick = null;
+  #handleFavoriteClick = null;
 
   constructor({ point, onEditClick }) {
     super();
