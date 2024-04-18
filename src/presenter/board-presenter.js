@@ -12,6 +12,7 @@ export default class BoardPresenter {
   #noPointsComponent = new NoPointsView();
 
   #boardPoints = [];
+  #pointPresenters = new Map();
 
   constructor({ container, pointsModel }) {
     this.#container = container;
@@ -27,6 +28,7 @@ export default class BoardPresenter {
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({ pointListContainer: this.#eventListComponent.element });
     pointPresenter.init(point);
+    this.#pointPresenters.set(point.id, pointPresenter);
   }
 
   #renderSort() {
@@ -50,5 +52,10 @@ export default class BoardPresenter {
     } else {
       this.#boardPoints.forEach((point) => this.#renderPoint(point));
     }
+  }
+
+  #clearTaskList() {
+    this.#pointPresenters.forEach((presenter) => presenter.destroy());
+    this.#pointPresenters.clear();
   }
 }
