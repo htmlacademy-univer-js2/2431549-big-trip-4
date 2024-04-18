@@ -130,6 +130,9 @@ export default class EditPointView extends AbstractView {
 
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#formSubmitHandler);
   }
 
   get template() {
@@ -138,7 +141,7 @@ export default class EditPointView extends AbstractView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit();
+    this.#handleFormSubmit(this.#point);
   };
 
 }
