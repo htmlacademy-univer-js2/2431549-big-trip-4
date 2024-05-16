@@ -66,10 +66,18 @@ const FilterType = {
   PAST: 'past',
 };
 
+const SortType = {
+  DEFAULT: 'default',
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers',
+};
 
 export {
   LOREM_SENTENCES, RANDOM_IMG_URL,
   MSEC_IN_DAY, MSEC_IN_HOUR,
   Price, Duration, CITIES, TYPES, OFFERS, POINT_COUNT,
-  FilterType
+  FilterType, SortType
 };
