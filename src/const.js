@@ -66,6 +66,7 @@ const FilterType = {
   PAST: 'past',
 };
 
+
 export {
   LOREM_SENTENCES, RANDOM_IMG_URL,
   MSEC_IN_DAY, MSEC_IN_HOUR,

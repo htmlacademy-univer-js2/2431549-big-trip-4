@@ -4,6 +4,7 @@ import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 import { updateItem } from '../utils.js';
+import OffersModel from '../model/offers-model.js';
 
 export default class BoardPresenter {
   #container = null;
@@ -15,14 +16,15 @@ export default class BoardPresenter {
   #boardPoints = [];
   #pointPresenters = new Map();
 
+  #currentSortType = null;
+
   constructor({ container, pointsModel }) {
     this.#container = container;
     this.#pointsModel = pointsModel;
+    this.#boardPoints = [...this.#pointsModel.points];
   }
 
   init() {
-    this.#boardPoints = [...this.#pointsModel.points];
-
     this.#renderBoard();
   }
 
@@ -34,6 +36,7 @@ export default class BoardPresenter {
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       pointListContainer: this.#eventListComponent.element,
+      offersModel: new OffersModel(),
       onDataChange: this.#handlePointChange,
       onModeChange: this.#handleModeChange
     });
@@ -41,6 +44,10 @@ export default class BoardPresenter {
     pointPresenter.init(point);
     this.#pointPresenters.set(point.id, pointPresenter);
   }
+
+  #sortPoints = (sortType) => {
+    this.#currentSortType = sortType;
+  };
 
   #renderSort() {
     render(this.#sortComponent, this.#container);

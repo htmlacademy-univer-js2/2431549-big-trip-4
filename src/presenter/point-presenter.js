@@ -8,6 +8,8 @@ const Mode = {
 };
 
 export default class PointPresenter {
+  #offersModel = null;
+
   #pointListContainer = null;
   #handleDataChange = null;
   #handleModeChange = null;
@@ -18,8 +20,9 @@ export default class PointPresenter {
   #point = null;
   #mode = Mode.DEFAULT;
 
-  constructor({ pointListContainer, onDataChange, onModeChange }) {
+  constructor({ pointListContainer, offersModel, onDataChange, onModeChange }) {
     this.#pointListContainer = pointListContainer;
+    this.#offersModel = offersModel;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
   }
@@ -87,7 +90,6 @@ export default class PointPresenter {
   #replaceFormToPoint() {
     replace(this.#pointComponent, this.#editPointComponent);
     document.removeEventListener('keydown', this.#escKeyDownHandler);
-    this.#handleModeChange();
     this.#mode = Mode.DEFAULT;
   }
 
