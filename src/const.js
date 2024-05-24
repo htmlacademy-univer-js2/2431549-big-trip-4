@@ -67,7 +67,6 @@ const FilterType = {
 };
 
 const SortType = {
-  DEFAULT: 'default',
   DAY: 'day',
   EVENT: 'event',
   TIME: 'time',
