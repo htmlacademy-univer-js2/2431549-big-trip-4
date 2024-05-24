@@ -1,4 +1,4 @@
-import { render } from '../framework/render.js';
+import { render, RenderPosition } from '../framework/render.js';
 import EventListView from '../view/event-list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
@@ -10,7 +10,7 @@ export default class BoardPresenter {
   #container = null;
   #pointsModel = null;
   #eventListComponent = new EventListView();
-  #sortComponent = new SortView();
+  #sortComponent = null;
   #noPointsComponent = new NoPointsView();
 
   #boardPoints = [];
@@ -45,12 +45,17 @@ export default class BoardPresenter {
     this.#pointPresenters.set(point.id, pointPresenter);
   }
 
+  #handleSortTypeChange = () => {
+
+  };
+
   #sortPoints = (sortType) => {
     this.#currentSortType = sortType;
   };
 
   #renderSort() {
-    render(this.#sortComponent, this.#container);
+    this.#sortComponent = new SortView({ onSortTypeChange: this.#handleSortTypeChange });
+    render(this.#sortComponent, this.#container, RenderPosition.AFTERBEGIN);
   }
 
   #renderNoPoints() {

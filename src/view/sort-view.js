@@ -29,7 +29,24 @@ const sortTemplate = () => `<form class="trip-events__trip-sort  trip-sort" acti
 </form>`;
 
 export default class SortView extends AbstractView {
+  #handleSortTypeChange = null;
+
+  constructor({ onSortTypeChange }) {
+    super();
+    this.#handleSortTypeChange = onSortTypeChange;
+    this.element.addEventListener('click', this.#sortTypeChangeHandler);
+  }
+
   get template() {
     return sortTemplate;
   }
+
+  #sortTypeChangeHandler = (evt) => {
+    if (evt.target.tagName !== 'A') {
+      return;
+    }
+    evt.preventDefaul();
+
+    this.#handleSortTypeChange();
+  };
 }
