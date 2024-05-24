@@ -56,9 +56,21 @@ const isPointInThePresent = (point) => dayjs(point.dateTo).isBefore(dayjs());
 
 const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
 
+// Сортировка
+
+const sortPrice = (firstPoint, secondPoint) => secondPoint.basePrice - firstPoint.basePrice;
+
+const sortDay = (firstPoint, secondPoint) => dayjs(firstPoint.dateFrom).diff(dayjs(secondPoint.dateFrom));
+
+const sortTime = (firstPoint, secondPoint) => {
+  const timePointA = dayjs(firstPoint.dateTo).diff(dayjs(firstPoint.dateFrom));
+  const timePointB = dayjs(secondPoint.dateTo).diff(dayjs(secondPoint.dateFrom));
+  return timePointB - timePointA;
+};
+
 export {
   getRandomImageURL, getRandomLoremSentence, getRandomInteger, getRandomElement,
   getPointDuration, capitalize, formatStringToShortDate, formatStringToTime,
   isPointInThePresent, isPointInTheFuture, isPointInThePast,
-  updateItem
+  updateItem, sortDay, sortPrice, sortTime
 };
