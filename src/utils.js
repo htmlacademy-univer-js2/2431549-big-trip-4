@@ -55,7 +55,6 @@ const isPointInThePast = (point) => {
 const isPointInThePresent = (point) => dayjs(point.dateTo).isBefore(dayjs());
 
 
-
 // Сортировка
 
 const sortPrice = (firstPoint, secondPoint) => secondPoint.basePrice - firstPoint.basePrice;
