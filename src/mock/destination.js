@@ -12,15 +12,17 @@ const generatePicture = (city) => {
   return picture;
 };
 
-const generateDestination = () => {
-  const city = getRandomElement(CITIES);
-
-  return {
+const generateDestination = (city) => {
+  const destination = {
     id: crypto.randomUUID(),
     name: city,
     description: getRandomLoremSentence(),
     pictures: Array.from({ length: PICTURE_COUNT }, () => generatePicture(city))
   };
+
+  return destination;
 };
 
-export { generateDestination };
+const generateDestinations = () => CITIES.map((city) => generateDestination(city));
+
+export { generateDestination, generateDestinations };

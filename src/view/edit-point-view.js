@@ -1,4 +1,5 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import { generateDestinations } from '../mock/destination.js';
 
 const getOfferTemplate = (offer) => `<div class="event__available-offers">
 <div class="event__offer-selector">
@@ -149,16 +150,52 @@ export default class EditPointView extends AbstractStatefulView {
 
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#formSubmitHandler);
+
+    this.element.querySelector('.event__input--destination')
+      .addEventListener('input', this.#destinationInputHandler);
+
+    this.element.querySelector('.event__input--price')
+      .addEventListener('input', this.#priceInputHandler);
+
+    this.element.querySelector('.event__available-offers').addEventListener('change', this.#offersChangeHandler);
+
+    this.element.querySelector('.event__type-list').addEventListener('change', this.#typeChangeHandler);
   }
 
   get template() {
     return getEditPointTemplate(EditPointView.parseStateToPoint(this._state));
   }
 
+  #typeChangeHandler = (evt) => {
+    evt.preventDefault();
+  };
+
+  #offersChangeHandler = (evt) => {
+    evt.preventDefault();
+  };
+
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit(this.#point);
   };
+
+  #destinationInputHandler = (evt) => {
+    evt.preventDefault();
+    const destinations = generateDestinations();
+    const newDestination = destinations.filter((dest) => dest.name === evt.target.value);
+    this._setState({ destination: newDestination });
+  };
+
+  #priceInputHandler = (evt) => {
+    evt.preventDefault();
+    this._setState({ basePrice: evt.target.value });
+  };
+
+  reset(point) {
+    this.updateElement(
+      EditPointView.parsePointToState(point),
+    );
+  }
 
   _restoreHandlers() {
     this.element.querySelector('form')
@@ -166,6 +203,22 @@ export default class EditPointView extends AbstractStatefulView {
 
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#formSubmitHandler);
+
+    this.element.querySelector('.event__input--destination')
+      .addEventListener('input', this.#destinationInputHandler);
+
+    this.element.querySelector('.event__input--price')
+      .addEventListener('input', this.#priceInputHandler);
+
+    this.element.querySelector('.event__input--destination')
+      .addEventListener('input', this.#destinationInputHandler);
+
+    this.element.querySelector('.event__input--price')
+      .addEventListener('input', this.#priceInputHandler);
+
+    this.element.querySelector('.event__available-offers').addEventListener('change', this.#offersChangeHandler);
+
+    this.element.querySelector('.event__type-list').addEventListener('change', this.#typeChangeHandler);
   }
 
   static parsePointToState = (point) => point;
