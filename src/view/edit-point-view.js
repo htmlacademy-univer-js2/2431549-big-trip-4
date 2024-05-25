@@ -15,6 +15,11 @@ const getOffersTemplate = (offers) => {
   return offerTemplates.join('');
 };
 
+const getDestinationPhotos = (destination) => {
+  const destinationPhotos = destination.pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`);
+  return destinationPhotos.join('');
+};
+
 const getEditPointTemplate = (point) => `<li class="trip-events__item">
 <form class="event event--edit" action="#" method="post">
   <header class="event__header">
@@ -119,6 +124,11 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
     <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">${point.destination.description}</p>
+      <div class="event__photos-container">
+      <div class="event__photos-tape">
+        ${getDestinationPhotos(point.destination)}
+      </div>
+    </div>
     </section>
   </section>
 </form>
