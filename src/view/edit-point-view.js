@@ -3,7 +3,7 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { generateDestinations } from '../mock/destination.js';
 import { capitalize } from '../utils.js';
 import flatpickr from 'flatpickr';
-
+import he from 'he';
 import 'flatpickr/dist/flatpickr.min.css';
 
 
@@ -130,7 +130,7 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
     </section>
     <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${point.destination.description}</p>
+      <p class="event__destination-description">${he.encode(point.destination.description)}</p>
       <div class="event__photos-container">
       <div class="event__photos-tape">
         ${getDestinationPhotos(point.destination)}
