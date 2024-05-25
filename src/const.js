@@ -58,6 +58,7 @@ const OFFERS = [
 ];
 
 const POINT_COUNT = 20;
+const OFFER_COUNT = 3;
 
 const FilterType = {
   EVERYTHING: 'everything',
@@ -77,6 +78,6 @@ const SortType = {
 export {
   LOREM_SENTENCES, RANDOM_IMG_URL,
   MSEC_IN_DAY, MSEC_IN_HOUR,
-  Price, Duration, CITIES, TYPES, OFFERS, POINT_COUNT,
+  Price, Duration, CITIES, TYPES, OFFERS, POINT_COUNT, OFFER_COUNT,
   FilterType, SortType
 };

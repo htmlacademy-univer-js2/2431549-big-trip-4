@@ -4,7 +4,6 @@ import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 import { updateItem, sortDay, sortPrice, sortTime } from '../utils.js';
-import OffersModel from '../model/offers-model.js';
 import { SortType } from '../const.js';
 
 export default class BoardPresenter {
@@ -40,7 +39,6 @@ export default class BoardPresenter {
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       pointListContainer: this.#eventListComponent.element,
-      offersModel: new OffersModel(),
       onDataChange: this.#handlePointChange,
       onModeChange: this.#handleModeChange
     });
@@ -50,7 +48,6 @@ export default class BoardPresenter {
   }
 
   #handleSortTypeChange = (sortType) => {
-    console.log(sortType, this.#currentSortType)
     if (this.#currentSortType === sortType) {
       return;
     }

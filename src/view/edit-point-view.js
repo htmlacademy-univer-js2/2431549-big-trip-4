@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 
 const getOfferTemplate = (offer) => `<div class="event__available-offers">
 <div class="event__offer-selector">
@@ -119,12 +119,13 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
 </form>
 </li>`;
 
-export default class EditPointView extends AbstractView {
+export default class EditPointView extends AbstractStatefulView {
   #point = null;
   #handleFormSubmit = null;
 
   constructor({ point, onFormSubmit }) {
     super();
+    this._setState(EditPointView.parsePointToState(point));
     this.#point = point;
     this.#handleFormSubmit = onFormSubmit;
 
@@ -136,12 +137,15 @@ export default class EditPointView extends AbstractView {
   }
 
   get template() {
-    return getEditPointTemplate(this.#point);
+    return getEditPointTemplate(EditPointView.parseStateToPoint(this._state));
   }
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit(this.#point);
   };
+
+  static parsePointToState = (point) => point;
+  static parseStateToPoint = (state) => state;
 
 }
