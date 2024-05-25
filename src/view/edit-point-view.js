@@ -1,5 +1,7 @@
+import { TYPES } from '../const.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { generateDestinations } from '../mock/destination.js';
+import { capitalize } from '../utils.js';
 
 const getOfferTemplate = (offer) => `<div class="event__available-offers">
 <div class="event__offer-selector">
@@ -168,6 +170,8 @@ export default class EditPointView extends AbstractStatefulView {
 
   #typeChangeHandler = (evt) => {
     evt.preventDefault();
+    const newType = TYPES.filter((type) => type.title === capitalize(evt.target.value))[0];
+    this.updateElement({ type: newType });
   };
 
   #offersChangeHandler = (evt) => {
@@ -182,12 +186,19 @@ export default class EditPointView extends AbstractStatefulView {
   #destinationInputHandler = (evt) => {
     evt.preventDefault();
     const destinations = generateDestinations();
-    const newDestination = destinations.filter((dest) => dest.name === evt.target.value);
+    const newDestination = destinations.filter((dest) => dest.name === evt.target.value)[0];
+
+    if (newDestination === undefined) {
+      return;
+    }
+
+    this.updateElement({ destination: newDestination });
     this._setState({ destination: newDestination });
   };
 
   #priceInputHandler = (evt) => {
     evt.preventDefault();
+    this.updateElement({ basePrice: evt.target.value });
     this._setState({ basePrice: evt.target.value });
   };
 

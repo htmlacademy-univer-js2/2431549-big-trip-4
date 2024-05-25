@@ -1,5 +1,5 @@
 import { CITIES } from '../const.js';
-import { getRandomElement, getRandomImageURL, getRandomLoremSentence } from '../utils.js';
+import { getRandomImageURL, getRandomLoremSentence } from '../utils.js';
 
 const PICTURE_COUNT = 4;
 
