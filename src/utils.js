@@ -54,7 +54,7 @@ const isPointInThePast = (point) => {
 
 const isPointInThePresent = (point) => dayjs(point.dateTo).isBefore(dayjs());
 
-const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
+
 
 // Сортировка
 
@@ -72,5 +72,5 @@ export {
   getRandomImageURL, getRandomLoremSentence, getRandomInteger, getRandomElement,
   getPointDuration, capitalize, formatStringToShortDate, formatStringToTime,
   isPointInThePresent, isPointInTheFuture, isPointInThePast,
-  updateItem, sortDay, sortPrice, sortTime
+  sortDay, sortPrice, sortTime
 };

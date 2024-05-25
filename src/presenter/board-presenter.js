@@ -3,7 +3,7 @@ import EventListView from '../view/event-list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
-import { updateItem, sortDay, sortPrice, sortTime } from '../utils.js';
+import { sortDay, sortPrice, sortTime } from '../utils.js';
 import { SortType } from '../const.js';
 
 export default class BoardPresenter {
@@ -13,20 +13,26 @@ export default class BoardPresenter {
   #sortComponent = null;
   #noPointsComponent = new NoPointsView();
 
-  #boardPoints = [];
   #pointPresenters = new Map();
 
   #currentSortType = SortType.DAY;
-  #sourcedBoardPoints = [];
+
 
   constructor({ container, pointsModel }) {
     this.#container = container;
     this.#pointsModel = pointsModel;
-    this.#boardPoints = [...this.#pointsModel.points];
-    this.#sourcedBoardPoints = [...this.#pointsModel.points];
+    this.#pointsModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
+    switch (this.#currentSortType) {
+      case SortType.DAY:
+        return [...this.#pointsModel.points].sort(sortDay);
+      case SortType.PRICE:
+        return [...this.#pointsModel.points].sort(sortPrice);
+      case SortType.TIME:
+        return [...this.#pointsModel.points].sort(sortTime);
+    }
     return this.#pointsModel.points;
   }
 
@@ -34,16 +40,26 @@ export default class BoardPresenter {
     this.#renderBoard();
   }
 
-  #handlePointChange = (updatedPoint) => {
-    this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
-    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
-    this.#sourcedBoardPoints = updateItem(this.#sourcedBoardPoints, updatedPoint);
+  #handleViewAction = (actionType, updateType, update) => {
+    console.log(actionType, updateType, update);
+    // Здесь будем вызывать обновление модели.
+    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
+    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
+    // update - обновленные данные
   };
+
+  #handleModelEvent = (updateType, data) => {
+    console.log(updateType, data);
+  };
+
+  /*  #handlePointChange = (updatedPoint) => {
+     this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
+   }; */
 
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       pointListContainer: this.#eventListComponent.element,
-      onDataChange: this.#handlePointChange,
+      onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange
     });
 
@@ -55,29 +71,12 @@ export default class BoardPresenter {
     if (this.#currentSortType === sortType) {
       return;
     }
-
-    this.#sortPoints(sortType);
-    this.#clearPointList();
-    this.#renderPointList();
-  };
-
-  #sortPoints = (sortType) => {
-    switch (sortType) {
-      case SortType.DAY:
-        this.#boardPoints.sort(sortDay);
-        break;
-      case SortType.PRICE:
-        this.#boardPoints.sort(sortPrice);
-        break;
-      case SortType.TIME:
-        this.#boardPoints.sort(sortTime);
-        break;
-      default:
-        this.#boardPoints = [...this.#sourcedBoardPoints];
-    }
-
     this.#currentSortType = sortType;
+
+    this.#clearPointList();
+    this.#renderPointList(this.points);
   };
+
 
   #renderSort() {
     this.#sortComponent = new SortView({ onSortTypeChange: this.#handleSortTypeChange });
@@ -88,18 +87,18 @@ export default class BoardPresenter {
     render(this.#noPointsComponent, this.#eventListComponent);
   }
 
-  #renderPointList() {
+  #renderPointList(points) {
     render(this.#eventListComponent, this.#container);
-    this.#boardPoints.forEach((point) => this.#renderPoint(point));
+    points.forEach((point) => this.#renderPoint(point));
   }
 
   #renderBoard() {
     this.#renderSort();
 
-    if (this.#boardPoints.length === 0) {
+    if (this.#pointsModel.points.length === 0) {
       this.#renderNoPoints();
     }
-    this.#renderPointList();
+    this.#renderPointList(this.points);
   }
 
   #handleModeChange = () => {
