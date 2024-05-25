@@ -4,7 +4,7 @@ import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 import { sortDay, sortPrice, sortTime } from '../utils.js';
-import { SortType, UpdateType, UserAction } from '../const.js';
+import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
 import { filter } from '../filter.js';
 
 export default class BoardPresenter {
@@ -13,12 +13,13 @@ export default class BoardPresenter {
   #filterModel = null;
 
   #sortComponent = null;
+  #noPointsComponent = null;
   #eventListComponent = new EventListView();
-  #noPointsComponent = new NoPointsView();
 
   #pointPresenters = new Map();
 
   #currentSortType = SortType.DAY;
+  #filterType = FilterType.ALL;
 
   constructor({ container, pointsModel, filterModel }) {
     this.#container = container;
@@ -30,9 +31,9 @@ export default class BoardPresenter {
   }
 
   get points() {
-    const filterType = this.#filterModel.filter;
+    this.#filterType = this.#filterModel.filter;
     const points = this.#pointsModel.points;
-    const filteredPoints = filter[filterType](points);
+    const filteredPoints = filter[this.#filterType](points);
 
     switch (this.#currentSortType) {
       case SortType.DAY:
@@ -85,6 +86,9 @@ export default class BoardPresenter {
 
     remove(this.#sortComponent);
     remove(this.#noPointsComponent);
+    if (this.#noPointsComponent) {
+      remove(this.#noPointsComponent);
+    }
 
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
@@ -121,7 +125,11 @@ export default class BoardPresenter {
   }
 
   #renderNoPoints() {
-    render(this.#noPointsComponent, this.#eventListComponent);
+    this.#noPointsComponent = new NoPointsView({
+      filterType: this.#filterType,
+    });
+
+    render(this.#noPointsComponent, this.#container);
   }
 
   #renderPointList(points) {
@@ -137,6 +145,7 @@ export default class BoardPresenter {
     if (pointCount === 0) {
       this.#renderNoPoints();
     }
+
     this.#renderPointList(this.points);
   }
 
