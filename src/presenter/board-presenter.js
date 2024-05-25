@@ -5,34 +5,44 @@ import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 import { sortDay, sortPrice, sortTime } from '../utils.js';
 import { SortType, UpdateType, UserAction } from '../const.js';
+import { filter } from '../filter.js';
 
 export default class BoardPresenter {
   #container = null;
   #pointsModel = null;
-  #eventListComponent = new EventListView();
+  #filterModel = null;
+
   #sortComponent = null;
+  #eventListComponent = new EventListView();
   #noPointsComponent = new NoPointsView();
 
   #pointPresenters = new Map();
 
   #currentSortType = SortType.DAY;
 
-  constructor({ container, pointsModel }) {
+  constructor({ container, pointsModel, filterModel }) {
     this.#container = container;
     this.#pointsModel = pointsModel;
+    this.#filterModel = filterModel;
+
     this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
+    const filterType = this.#filterModel.filter;
+    const points = this.#pointsModel.points;
+    const filteredPoints = filter[filterType](points);
+
     switch (this.#currentSortType) {
       case SortType.DAY:
-        return [...this.#pointsModel.points].sort(sortDay);
+        return filteredPoints.sort(sortDay);
       case SortType.PRICE:
-        return [...this.#pointsModel.points].sort(sortPrice);
+        return filteredPoints.sort(sortPrice);
       case SortType.TIME:
-        return [...this.#pointsModel.points].sort(sortTime);
+        return filteredPoints.sort(sortTime);
     }
-    return this.#pointsModel.points;
+    return filteredPoints;
   }
 
   init() {
@@ -77,7 +87,7 @@ export default class BoardPresenter {
     remove(this.#noPointsComponent);
 
     if (resetSortType) {
-      this.#currentSortType = SortType.DEFAULT;
+      this.#currentSortType = SortType.DAY;
     }
   }
 
