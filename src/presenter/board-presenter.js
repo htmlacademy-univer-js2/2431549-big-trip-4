@@ -98,8 +98,8 @@ export default class BoardPresenter {
     }
     this.#currentSortType = sortType;
 
-    this.#clearPointList();
-    this.#renderPointList(this.points);
+    this.#clearBoard(sortType);
+    this.#renderBoard();
   };
 
   #renderSort() {
@@ -133,9 +133,4 @@ export default class BoardPresenter {
   #handleModeChange = () => {
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
   };
-
-  #clearPointList() {
-    this.#pointPresenters.forEach((presenter) => presenter.destroy());
-    this.#pointPresenters.clear();
-  }
 }

@@ -144,13 +144,16 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
 export default class EditPointView extends AbstractStatefulView {
   #point = null;
   #handleFormSubmit = null;
+  #handleDeleteClick = null;
+
   #datepicker = null;
 
-  constructor({ point, onFormSubmit }) {
+  constructor({ point, onFormSubmit, onDeleteClick }) {
     super();
     this._setState(EditPointView.parsePointToState(point));
     this.#point = point;
     this.#handleFormSubmit = onFormSubmit;
+    this.#handleDeleteClick = onDeleteClick;
 
     this._restoreHandlers();
   }
@@ -193,6 +196,11 @@ export default class EditPointView extends AbstractStatefulView {
     this._setState({ basePrice: evt.target.value });
   };
 
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(EditPointView.parseStateToTask(this._state));
+  };
+
   removeElement() {
     super.removeElement();
 
@@ -209,11 +217,15 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   _restoreHandlers() {
+
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
 
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#formSubmitHandler);
+
+    this.element.querySelector('.event__reset-btn')
+      .addEventListener('submit', this.#formDeleteClickHandler);
 
     this.element.querySelector('.event__input--destination')
       .addEventListener('input', this.#destinationInputHandler);

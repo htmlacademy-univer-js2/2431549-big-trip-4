@@ -67,9 +67,11 @@ const sortTime = (firstPoint, secondPoint) => {
   return timePointB - timePointA;
 };
 
+const areDatesSame = (oldDate, newDate) => dayjs(oldDate).isSame(dayjs(newDate));
+
 export {
   getRandomImageURL, getRandomLoremSentence, getRandomInteger, getRandomElement,
   getPointDuration, capitalize, formatStringToShortDate, formatStringToTime,
   isPointInThePresent, isPointInTheFuture, isPointInThePast,
-  sortDay, sortPrice, sortTime
+  sortDay, sortPrice, sortTime, areDatesSame
 };
