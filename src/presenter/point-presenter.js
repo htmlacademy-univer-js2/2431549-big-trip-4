@@ -8,8 +8,6 @@ const Mode = {
 };
 
 export default class PointPresenter {
-  #offersModel = null;
-
   #pointListContainer = null;
   #handleDataChange = null;
   #handleModeChange = null;
@@ -20,9 +18,8 @@ export default class PointPresenter {
   #point = null;
   #mode = Mode.DEFAULT;
 
-  constructor({ pointListContainer, offersModel, onDataChange, onModeChange }) {
+  constructor({ pointListContainer, onDataChange, onModeChange }) {
     this.#pointListContainer = pointListContainer;
-    this.#offersModel = offersModel;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
   }
@@ -69,6 +66,7 @@ export default class PointPresenter {
 
   resetView() {
     if (this.#mode !== Mode.DEFAULT) {
+      this.#editPointComponent.reset(this.#point);
       this.#replaceFormToPoint();
     }
   }
@@ -76,6 +74,7 @@ export default class PointPresenter {
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
+      this.#editPointComponent.reset(this.#point);
       this.#replaceFormToPoint();
     }
   };
