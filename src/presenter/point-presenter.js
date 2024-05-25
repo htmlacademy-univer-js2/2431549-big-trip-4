@@ -1,6 +1,8 @@
 import { render, replace, remove } from '../framework/render.js';
 import PointView from '../view/point-view.js';
 import EditPointView from '../view/edit-point-view.js';
+import { UpdateType, UserAction } from '../const.js';
+import { areDatesSame } from '../utils.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -38,7 +40,8 @@ export default class PointPresenter {
 
     this.#editPointComponent = new EditPointView({
       point: this.#point,
-      onFormSubmit: this.#handleFormSubmit
+      onFormSubmit: this.#handleFormSubmit,
+      onDeleteClick: this.#handleDeleteClick,
     });
 
     if (prevPointComponent === null || prevEditPointComponent === null) {
@@ -93,8 +96,24 @@ export default class PointPresenter {
   }
 
   #handleFormSubmit = (point) => {
-    this.#handleDataChange(point);
+    const isMinorUpdate = !areDatesSame(this.#point.dateFrom, point.dateFrom)
+      || !areDatesSame(this.#point.dateTo, point.dateTo)
+      || this.#point.basePrice !== point.basePrice;
+
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
+      point);
     this.#replaceFormToPoint();
+  };
+
+
+  #handleDeleteClick = (point) => {
+    this.#handleDataChange(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
   };
 
   #handleEditClick = () => {
@@ -102,6 +121,9 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#handleDataChange({ ...this.#point, isFavorite: !this.#point.isFavorite });
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      { ...this.#point, isFavorite: !this.#point.isFavorite });
   };
 }
