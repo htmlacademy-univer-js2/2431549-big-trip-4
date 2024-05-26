@@ -1,7 +1,7 @@
 import { TYPES } from '../const.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { generateDestinations } from '../mock/destination.js';
-import { capitalize } from '../utils.js';
+import { capitalize, getTypeLogo } from '../utils.js';
 import flatpickr from 'flatpickr';
 import he from 'he';
 import 'flatpickr/dist/flatpickr.min.css';
@@ -11,9 +11,9 @@ const getOfferTemplate = (offer) => `<div class="event__available-offers">
 <div class="event__offer-selector">
   <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage">
   <label class="event__offer-label" for="event-offer-luggage-1">
-    <span class="event__offer-title">${offer.title}</span>
+    <span class="event__offer-title">${offer}</span>
     &plus;&euro;&nbsp;
-    <span class="event__offer-price">${offer.price}</span>
+    <span class="event__offer-price">${offer}</span>
   </label>
 </div>`;
 
@@ -22,10 +22,6 @@ const getOffersTemplate = (offers) => {
   return offerTemplates.join('');
 };
 
-const getDestinationPhotos = (destination) => {
-  const destinationPhotos = destination.pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`);
-  return destinationPhotos.join('');
-};
 
 const getEditPointTemplate = (point) => `<li class="trip-events__item">
 <form class="event event--edit" action="#" method="post">
@@ -33,7 +29,7 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
     <div class="event__type-wrapper">
       <label class="event__type  event__type-btn" for="event-type-toggle-1">
         <span class="visually-hidden">Choose event type</span>
-        <img class="event__type-icon" width="17" height="17" src="${point.type.img}" alt="Event type icon">
+        <img class="event__type-icon" width="17" height="17" src="${getTypeLogo(point.type)}" alt="Event type icon">
       </label>
       <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -91,9 +87,9 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
 
     <div class="event__field-group  event__field-group--destination">
       <label class="event__label  event__type-output" for="event-destination-1">
-      ${point.type.title}
+      ${point.type}
       </label>
-      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${point.destination.name}" list="destination-list-1">
+      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${point.destination}" list="destination-list-1">
       <datalist id="destination-list-1">
         <option value="Amsterdam"></option>
         <option value="Geneva"></option>
@@ -130,10 +126,10 @@ const getEditPointTemplate = (point) => `<li class="trip-events__item">
     </section>
     <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${he.encode(point.destination.description)}</p>
+      <p class="event__destination-description"></p>
       <div class="event__photos-container">
       <div class="event__photos-tape">
-        ${getDestinationPhotos(point.destination)}
+
       </div>
     </div>
     </section>
@@ -155,8 +151,7 @@ export default class EditPointView extends AbstractStatefulView {
     this.#handleFormSubmit = onFormSubmit;
     this.#handleDeleteClick = onDeleteClick;
 
-    console.log(this.#point)
-    /* this._restoreHandlers(); */
+    this._restoreHandlers();
   }
 
   get template() {
