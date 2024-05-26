@@ -3,9 +3,9 @@ import { formatStringToShortDate, getPointDuration, formatStringToTime } from '.
 
 const getOfferTemplate = (offer) => `
 <li class="event__offer">
-  <span class="event__offer-title">${offer.title}</span>
+  <span class="event__offer-title">${offer}</span>
   &plus;&euro;&nbsp;
-  <span class="event__offer-price">${offer.price}</span>
+  <span class="event__offer-price">${offer}</span>
 </li>`;
 
 const getOffersTemplate = (offers) => {
@@ -19,7 +19,7 @@ const getPointTemplate = (point) => `<li class="trip-events__item">
   <div class="event__type">
     <img class="event__type-icon" width="42" height="42" src="${point.type.img}" alt="Event type icon">
   </div>
-  <h3 class="event__title">${point.type.title} ${point.destination.name}</h3>
+  <h3 class="event__title">${point.type} ${point.destination}</h3>
   <div class="event__schedule">
     <p class="event__time">
       <time class="event__start-time" datetime="2019-03-18T10:30">${formatStringToTime(point.dateFrom)}</time>
