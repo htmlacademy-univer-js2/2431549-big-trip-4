@@ -49,7 +49,7 @@ export default class PointsModel extends Observable {
     try {
       const response = await this.#pointsApiService.addTask(update);
       const newPoint = this.#adaptToClient(response);
-      this.#points = [newTask, ...this.#points];
+      this.#points = [newPoint, ...this.#points];
       this._notify(updateType, newPoint);
     } catch (err) {
       throw new Error('Can\'t add task');
