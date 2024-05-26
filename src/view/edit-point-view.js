@@ -3,7 +3,6 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { generateDestinations } from '../mock/destination.js';
 import { capitalize, getTypeLogo } from '../utils.js';
 import flatpickr from 'flatpickr';
-import he from 'he';
 import 'flatpickr/dist/flatpickr.min.css';
 
 
