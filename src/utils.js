@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import dayjs from 'dayjs';
-import { LOREM_SENTENCES, RANDOM_IMG_URL, MSEC_IN_DAY, MSEC_IN_HOUR, Duration } from './const.js';
+import { LOREM_SENTENCES, RANDOM_IMG_URL, MSEC_IN_DAY, MSEC_IN_HOUR, Duration, TYPES } from './const.js';
 
 const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
@@ -54,7 +54,6 @@ const isPointInThePast = (point) => {
 
 const isPointInThePresent = (point) => dayjs(point.dateTo).isBefore(dayjs());
 
-
 // Сортировка
 
 const sortPrice = (firstPoint, secondPoint) => secondPoint.basePrice - firstPoint.basePrice;
@@ -69,9 +68,11 @@ const sortTime = (firstPoint, secondPoint) => {
 
 const areDatesSame = (oldDate, newDate) => dayjs(oldDate).isSame(dayjs(newDate));
 
+const getTypeLogo = (type) => TYPES.find((t) => t.title.toLowerCase() === type.toLowerCase()).img;
+
 export {
   getRandomImageURL, getRandomLoremSentence, getRandomInteger, getRandomElement,
   getPointDuration, capitalize, formatStringToShortDate, formatStringToTime,
   isPointInThePresent, isPointInTheFuture, isPointInThePast,
-  sortDay, sortPrice, sortTime, areDatesSame
+  sortDay, sortPrice, sortTime, areDatesSame, getTypeLogo
 };

@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { formatStringToShortDate, getPointDuration, formatStringToTime } from '../utils.js';
+import { formatStringToShortDate, getPointDuration, formatStringToTime, getTypeLogo } from '../utils.js';
 
 const getOfferTemplate = (offer) => `
 <li class="event__offer">
@@ -17,7 +17,7 @@ const getPointTemplate = (point) => `<li class="trip-events__item">
 <div class="event">
   <time class="event__date" datetime="2019-03-18">${formatStringToShortDate(point.dateFrom)}</time>
   <div class="event__type">
-    <img class="event__type-icon" width="42" height="42" src="${point.type.img}" alt="Event type icon">
+    <img class="event__type-icon" width="42" height="42" src="${getTypeLogo(point.type)}" alt="Event type icon">
   </div>
   <h3 class="event__title">${point.type} ${point.destination}</h3>
   <div class="event__schedule">
@@ -59,6 +59,7 @@ export default class PointView extends AbstractView {
 
     this.#handleEditClick = onEditClick;
     this.#handleFavoriteClick = onFavoriteClick;
+
 
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
     this.element.querySelector('.event__favorite-btn')
