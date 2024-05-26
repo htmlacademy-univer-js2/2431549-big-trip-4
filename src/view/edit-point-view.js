@@ -155,7 +155,8 @@ export default class EditPointView extends AbstractStatefulView {
     this.#handleFormSubmit = onFormSubmit;
     this.#handleDeleteClick = onDeleteClick;
 
-    this._restoreHandlers();
+    console.log(this.#point)
+    /* this._restoreHandlers(); */
   }
 
   get template() {

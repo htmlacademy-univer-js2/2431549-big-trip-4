@@ -29,6 +29,7 @@ const onAddFormClose = () => {
   newEventButton.disabled = false;
 };
 
+
 const boardPresenter = new BoardPresenter(
   {
     container: siteContentElement,
@@ -48,3 +49,4 @@ render(new TripInfoView(), siteHeaderElement, RenderPosition.AFTERBEGIN);
 
 filterPresenter.init();
 boardPresenter.init();
+pointsModel.init();
