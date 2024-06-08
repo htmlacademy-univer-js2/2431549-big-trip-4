@@ -1,6 +1,5 @@
 import { TYPES } from '../const.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { generateDestinations } from '../mock/destination.js';
 import { capitalize, getTypeLogo } from '../utils.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
@@ -174,7 +173,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #destinationInputHandler = (evt) => {
     evt.preventDefault();
-    const destinations = generateDestinations();
+    /* const destinations = generateDestinations();
     const newDestination = destinations.filter((dest) => dest.name === evt.target.value)[0];
 
     if (newDestination === undefined) {
@@ -182,7 +181,7 @@ export default class EditPointView extends AbstractStatefulView {
     }
 
     this.updateElement({ destination: newDestination });
-    this._setState({ destination: newDestination });
+    this._setState({ destination: newDestination }); */
   };
 
   #priceInputHandler = (evt) => {

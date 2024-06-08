@@ -11,8 +11,11 @@ import { filter } from '../filter.js';
 
 export default class BoardPresenter {
   #container = null;
+
   #pointsModel = null;
   #filterModel = null;
+  #offerModel = null;
+  #destinationModel = null;
 
   #sortComponent = null;
   #noPointsComponent = null;
@@ -23,22 +26,27 @@ export default class BoardPresenter {
   #newPointPresenter = null;
 
   #currentSortType = SortType.DAY;
-  #filterType = FilterType.ALL;
+  #filterType = FilterType.EVERYTHING;
   #isLoading = true;
 
-  constructor({ container, pointsModel, filterModel, onNewTaskDestroy }) {
+  constructor({ container, pointsModel, offerModel, destinationModel, filterModel, onNewPointDestroy }) {
     this.#container = container;
+
     this.#pointsModel = pointsModel;
+    this.#offerModel = offerModel;
+    this.#destinationModel = destinationModel;
     this.#filterModel = filterModel;
 
     this.#newPointPresenter = new NewPointPresenter({
       taskListContainer: this.#eventListComponent.element,
       onDataChange: this.#handleViewAction,
-      onDestroy: onNewTaskDestroy
+      onDestroy: onNewPointDestroy
     });
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
+    this.#offerModel.addObserver(this.#handleModelEvent);
+    this.#destinationModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
@@ -124,6 +132,9 @@ export default class BoardPresenter {
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       pointListContainer: this.#eventListComponent.element,
+      offersByType: this.#offerModel.offersByType,
+      destinations: this.#destinationModel.destinations,
+      destinationNames: this.#destinationModel.destinationNames,
       onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange
     });

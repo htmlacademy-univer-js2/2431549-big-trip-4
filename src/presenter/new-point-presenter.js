@@ -2,7 +2,6 @@ import { remove, render, RenderPosition } from '../framework/render.js';
 import { nanoid } from 'nanoid';
 import { UserAction, UpdateType } from '../const.js';
 import EditPointView from '../view/edit-point-view.js';
-import { generatePoint } from '../mock/point.js';
 
 export default class NewPointPresenter {
   #taskListContainer = null;
@@ -23,7 +22,7 @@ export default class NewPointPresenter {
     }
 
     this.#editPointComponent = new EditPointView({
-      point: generatePoint(),
+      point: null,
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick
     });

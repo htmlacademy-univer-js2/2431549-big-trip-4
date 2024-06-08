@@ -25,7 +25,7 @@ export default class PointsModel extends Observable {
   }
 
   async updatePoint(updateType, update) {
-    const index = this.#points.findIndex((task) => task.id === update.id);
+    const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
       throw new Error('Can\'t update unexisting point');
@@ -41,13 +41,13 @@ export default class PointsModel extends Observable {
       ];
       this._notify(updateType, updatedPoint);
     } catch (err) {
-      throw new Error('Can\'t update task');
+      throw new Error('Can\'t update point');
     }
   }
 
   async addPoint(updateType, update) {
     try {
-      const response = await this.#pointsApiService.addTask(update);
+      const response = await this.#pointsApiService.addPoint(update);
       const newPoint = this.#adaptToClient(response);
       this.#points = [newPoint, ...this.#points];
       this._notify(updateType, newPoint);
@@ -64,22 +64,18 @@ export default class PointsModel extends Observable {
     }
 
     try {
-      // Обратите внимание, метод удаления задачи на сервере
-      // ничего не возвращает. Это и верно,
-      // ведь что можно вернуть при удалении задачи?
-      await this.#pointsApiService.deleteTask(update);
+      await this.#pointsApiService.deletePoint(update);
       this.#points = [
         ...this.#points.slice(0, index),
         ...this.#points.slice(index + 1),
       ];
       this._notify(updateType);
     } catch (err) {
-      throw new Error('Can\'t delete task');
+      throw new Error('Can\'t delete point');
     }
   }
 
   #adaptToClient(point) {
-    console.log(point)
     const adaptedPoint = {
       ...point,
       basePrice: point['base_price'],
@@ -91,7 +87,6 @@ export default class PointsModel extends Observable {
     delete adaptedPoint['date_from'];
     delete adaptedPoint['date_to'];
     delete adaptedPoint['is_favorite'];
-    console.log(adaptedPoint)
     return adaptedPoint;
   }
 }
