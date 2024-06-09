@@ -18,12 +18,20 @@ export default class PointPresenter {
   #pointComponent = null;
 
   #point = null;
+  #offersByType = null;
+  #destinations = null;
+  #destinationNames = null;
+
   #mode = Mode.DEFAULT;
 
-  constructor({ pointListContainer, onDataChange, onModeChange }) {
+  constructor({ pointListContainer, offersByType, destinations, destinationNames, onDataChange, onModeChange }) {
     this.#pointListContainer = pointListContainer;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
+
+    this.#offersByType = offersByType;
+    this.#destinations = destinations;
+    this.#destinationNames = destinationNames;
   }
 
   init(point) {
@@ -34,12 +42,17 @@ export default class PointPresenter {
 
     this.#pointComponent = new PointView({
       point: this.#point,
+      offers: this.#offersByType.length ? this.#offersByType.find((offer) => offer.type === this.#point.type).offers : [],
+      destination: this.#destinations.find((place) => place.id === this.#point.destination),
       onEditClick: this.#handleEditClick,
       onFavoriteClick: this.#handleFavoriteClick,
     });
 
     this.#editPointComponent = new EditPointView({
       point: this.#point,
+      offersByType: this.#offersByType,
+      destinations: this.#destinations,
+      destinationNames: this.#destinationNames,
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
     });
