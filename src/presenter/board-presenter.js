@@ -31,6 +31,8 @@ export default class BoardPresenter {
   #filterType = FilterType.EVERYTHING;
   #isLoading = true;
 
+  #onNewPointDestroy = null;
+
   constructor({ container, pointsModel, offerModel, destinationModel, filterModel, onNewPointDestroy }) {
     this.#container = container;
 
@@ -39,11 +41,7 @@ export default class BoardPresenter {
     this.#destinationModel = destinationModel;
     this.#filterModel = filterModel;
 
-    this.#newPointPresenter = new NewPointPresenter({
-      taskListContainer: this.#eventListComponent.element,
-      onDataChange: this.#handleViewAction,
-      onDestroy: onNewPointDestroy
-    });
+    this.#onNewPointDestroy = onNewPointDestroy;
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
@@ -111,8 +109,14 @@ export default class BoardPresenter {
           this.#renderError();
           break;
         }
-        /* this.#pointNewPresenter = new NewPointPresenter(this.#points.element, this.#offerModel.offersByType,
-          this.#destinationModel.destinations, this.#destinationModel.destinationNames, this.#handleViewAction); */
+        this.#newPointPresenter = new NewPointPresenter({
+          taskListContainer: this.#eventListComponent.element,
+          offersByType: this.#offerModel,
+          destinations: this.#destinationModel.destinations,
+          destinationNames: this.#destinationModel.destinationNames,
+          onDataChange: this.#handleViewAction,
+          onDestroy: this.#onNewPointDestroy,
+        });
         this.#renderBoard();
         break;
     }

@@ -1,17 +1,26 @@
 import { remove, render, RenderPosition } from '../framework/render.js';
 import { nanoid } from 'nanoid';
-import { UserAction, UpdateType } from '../const.js';
+import { UserAction, UpdateType, TYPES } from '../const.js';
 import EditPointView from '../view/edit-point-view.js';
+import dayjs from 'dayjs';
 
 export default class NewPointPresenter {
-  #taskListContainer = null;
+  #destinations = null;
+  #destinationNames = null;
+  #offersByType = null;
+
+  #pointListContainer = null;
   #handleDataChange = null;
   #handleDestroy = null;
 
   #editPointComponent = null;
 
-  constructor({ taskListContainer, onDataChange, onDestroy }) {
-    this.#taskListContainer = taskListContainer;
+  constructor({ pointListContainer, offersByType, destinations, destinationNames, onDataChange, onDestroy }) {
+    this.#pointListContainer = pointListContainer;
+    this.#offersByType = offersByType;
+    this.#destinations = destinations;
+    this.#destinationNames = destinationNames;
+
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
   }
@@ -22,14 +31,29 @@ export default class NewPointPresenter {
     }
 
     this.#editPointComponent = new EditPointView({
-      point: null,
+      point: this.#generateDefaultPoint(),
+      offersByType: this.#offersByType,
+      destinations: this.#destinations,
+      destinationNames: this.#destinationNames,
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick
     });
 
-    render(this.#editPointComponent, this.#taskListContainer, RenderPosition.AFTERBEGIN);
+    render(this.#editPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
 
     document.addEventListener('keydown', this.#escKeyDownHandler);
+  }
+
+  #generateDefaultPoint() {
+    return {
+      basePrice: 0,
+      dateFrom: dayjs().toDate(),
+      dateTo: dayjs().add(1, 'm').toDate(),
+      destination: this.#destinations[0].id,
+      isFavorite: false,
+      offers: [],
+      type: TYPES[0],
+    };
   }
 
   destroy() {
@@ -49,8 +73,6 @@ export default class NewPointPresenter {
     this.#handleDataChange(
       UserAction.ADD_TASK,
       UpdateType.MINOR,
-      // Пока у нас нет сервера, который бы после сохранения
-      // выдывал честный id задачи, нам нужно позаботиться об этом самим
       { id: nanoid(), ...task },
     );
     this.destroy();
@@ -66,4 +88,5 @@ export default class NewPointPresenter {
       this.destroy();
     }
   };
+
 }
