@@ -55,8 +55,8 @@ const createPointTypeFields = (currentType) => {
     const eventType = type.title;
 
     return `<div class="event__type-item">
-                  <input id="event-type-${eventType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${eventType}" ${isChecked}>
-                  <label class="event__type-label  event__type-label--${eventType}" for="event-type-${eventType}-1">${eventType}</label>
+                  <input id="event-type-${eventType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${eventType.toLowerCase()}" ${isChecked}>
+                  <label class="event__type-label  event__type-label--${eventType.toLowerCase()}" for="event-type-${eventType.toLowerCase()}-1">${eventType}</label>
                 </div>`;
   }).join('');
   return array;
@@ -73,6 +73,7 @@ const getEditPointTemplate = (point, offersByType, destinations, destinationsNam
 
   const disabledTag = isDisabled ? 'disabled' : '';
   const deleteMessage = isDeleting ? 'Deleting...' : 'Delete';
+
   return `<li class="trip-events__item">
       <form class="event event--edit" action="#" method="post">
         <header class="event__header">
@@ -156,7 +157,29 @@ export default class EditPointView extends AbstractStatefulView {
     this.#handleFormSubmit = onFormSubmit;
     this.#handleDeleteClick = onDeleteClick;
 
-    /*  this._restoreHandlers(); */
+    this.element.querySelector('form')
+      .addEventListener('submit', this.#formSubmitHandler);
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#formSubmitHandler);
+
+    this.element.querySelector('.event__reset-btn')
+      .addEventListener('submit', this.#formDeleteClickHandler);
+
+    this.element.querySelector('.event__input--destination')
+      .addEventListener('input', this.#destinationInputHandler);
+
+    this.element.querySelector('.event__input--price')
+      .addEventListener('input', this.#priceInputHandler);
+
+    this.element.querySelector('.event__input--destination')
+      .addEventListener('input', this.#destinationInputHandler);
+
+    this.element.querySelector('.event__input--price')
+      .addEventListener('input', this.#priceInputHandler);
+
+    this.#setDatepickerFrom();
+    this.#setDatepickerTo();
   }
 
   get template() {
@@ -218,7 +241,6 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   _restoreHandlers() {
-
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
 
