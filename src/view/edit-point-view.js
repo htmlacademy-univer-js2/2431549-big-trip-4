@@ -1,6 +1,6 @@
 import { TYPES } from '../const.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { capitalize, humanizeEventTime, isPointInThePast } from '../utils.js';
+import { capitalize, humanizeEventTime } from '../utils.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -176,7 +176,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit(this.#point);
+    this.#handleFormSubmit(EditPointView.parseStateToPoint(this._state));
   };
 
   #destinationInputHandler = (evt) => {
@@ -247,6 +247,13 @@ export default class EditPointView extends AbstractStatefulView {
       .addEventListener('input', this.#priceInputHandler);
 
     this.element.querySelector('.event__type-group').addEventListener('click', this.#pointTypeClickHandler);
+
+    if (this.#offersByType.length && this.#offersByCurrentType.length) {
+      this.element.querySelector('.event__available-offers').addEventListener('click', this.#offerClickHandler);
+    }
+
+    this.#setDatepickerFrom();
+    this.#setDatepickerTo();
   }
 
   #pointTypeClickHandler = (evt) => {
@@ -266,23 +273,36 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('.event__available-offers').addEventListener('change', this.#offersChangeHandler);
 
     this.element.querySelector('.event__type-list').addEventListener('change', this.#typeChangeHandler);
-
-    this.#setDatepickerFrom();
-    this.#setDatepickerTo();
   }
 
-  #pointDateFromChangeHandler = ({ userDate }) => {
+  #pointDateFromChangeHandler = ([userDate]) => {
     this.updateElement({
       dateFrom: userDate,
-      dateTo: isPointInThePast(this._state.dateTo, '', userDate) ? userDate : this._state.dateTo,
     });
   };
 
-  #pointDateToChangeHandler = ({ userDate }) => {
+  #pointDateToChangeHandler = ([userDate]) => {
     this.updateElement({
       dateTo: userDate,
     });
   };
+
+  #offerClickHandler = (evt) => {
+    if (evt.target.tagName !== 'INPUT') {
+      return;
+    }
+    evt.preventDefault();
+    const newOffer = this.#offersByCurrentType.find((offer) => offer.title === evt.target.dataset.offerTitle).id;
+    if (this._state.offers.includes(newOffer)) {
+      this._state.offers.splice(this._state.offers.indexOf(newOffer), 1);
+    } else {
+      this._state.offers.push(newOffer);
+    }
+    this.updateElement({
+      offers: this._state.offers,
+    });
+  };
+
 
   #setDatepickerFrom = () => {
     this.#datepicker = flatpickr(
