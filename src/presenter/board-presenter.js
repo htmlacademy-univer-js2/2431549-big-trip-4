@@ -3,6 +3,7 @@ import EventListView from '../view/event-list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import LoadingView from '../view/loading-view.js';
+import ErrorView from '../view/error-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import { sortDay, sortPrice, sortTime } from '../utils.js';
@@ -21,6 +22,7 @@ export default class BoardPresenter {
   #noPointsComponent = null;
   #eventListComponent = new EventListView();
   #loadingComponent = new LoadingView();
+  #errorComponent = new ErrorView();
 
   #pointPresenters = new Map();
   #newPointPresenter = null;
@@ -105,6 +107,12 @@ export default class BoardPresenter {
       case UpdateType.INIT:
         this.#isLoading = false;
         remove(this.#loadingComponent);
+        if (!this.#offerModel.offersByType.length || !this.#destinationModel.destinations.length) {
+          this.#renderError();
+          break;
+        }
+        /* this.#pointNewPresenter = new NewPointPresenter(this.#points.element, this.#offerModel.offersByType,
+          this.#destinationModel.destinations, this.#destinationModel.destinationNames, this.#handleViewAction); */
         this.#renderBoard();
         break;
     }
@@ -162,7 +170,11 @@ export default class BoardPresenter {
   }
 
   #renderLoading() {
-    render(this.#loadingComponent, this.#eventListComponent.element, RenderPosition.AFTERBEGIN);
+    render(this.#loadingComponent, this.#container, RenderPosition.AFTERBEGIN);
+  }
+
+  #renderError() {
+    render(this.#errorComponent, this.#container, RenderPosition.AFTERBEGIN);
   }
 
   #renderNoPoints() {
@@ -189,7 +201,9 @@ export default class BoardPresenter {
 
     if (pointCount === 0) {
       this.#renderNoPoints();
+      return;
     }
+
     this.#renderSort();
     this.#renderPointList(this.points);
   }

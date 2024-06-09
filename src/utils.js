@@ -22,6 +22,8 @@ const formatStringToTime = (string) => dayjs(string).format('HH:mm');
 
 const capitalize = (string) => `${string[0].toUpperCase()}${string.slice(1)}`;
 
+const humanizeEventTime = (dateTime, format) => dayjs(dateTime).format(format).toUpperCase();
+
 const getPointDuration = (dateFrom, dateTo) => {
   const timeDiff = dayjs(dateTo).diff(dayjs(dateFrom));
 
@@ -74,5 +76,5 @@ export {
   getRandomImageURL, getRandomLoremSentence, getRandomInteger, getRandomElement,
   getPointDuration, capitalize, formatStringToShortDate, formatStringToTime,
   isPointInThePresent, isPointInTheFuture, isPointInThePast,
-  sortDay, sortPrice, sortTime, areDatesSame, getTypeLogo
+  sortDay, sortPrice, sortTime, areDatesSame, getTypeLogo, humanizeEventTime
 };

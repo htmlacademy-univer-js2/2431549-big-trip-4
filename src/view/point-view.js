@@ -1,17 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { formatStringToShortDate, getPointDuration, formatStringToTime, getTypeLogo } from '../utils.js';
 
-const getOfferTemplate = (offer) => `
-<li class="event__offer">
-  <span class="event__offer-title">${offer}</span>
-  &plus;&euro;&nbsp;
-  <span class="event__offer-price">${offer}</span>
-</li>`;
-
-const getOffersTemplate = (offers) => {
-  const offerTemplates = offers.map((offer) => getOfferTemplate(offer));
-  return offerTemplates.join('');
-};
 
 const getPointTemplate = (point, offersByCurrentType, destination) => {
   const { basePrice, dateFrom, dateTo, isFavorite, offers, type } = point;
@@ -59,7 +48,8 @@ const getPointTemplate = (point, offersByCurrentType, destination) => {
   </button>
 </div >
 </li > `;
-}
+};
+
 export default class PointView extends AbstractView {
   #point = null;
   #destination = null;

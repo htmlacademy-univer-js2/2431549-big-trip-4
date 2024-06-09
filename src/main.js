@@ -53,8 +53,14 @@ const onNewEventButtonClick = () => {
 newEventButton.addEventListener('click', onNewEventButtonClick);
 render(new TripInfoView(), siteHeaderElement, RenderPosition.AFTERBEGIN);
 
-destinationModel.init();
-offerModel.init();
 filterPresenter.init();
 boardPresenter.init();
-pointsModel.init();
+offerModel.init().finally(() => {
+  destinationModel.init().finally(() => {
+    pointsModel.init().finally(() => {
+      if (offerModel.offersByType.length && destinationModel.destinations.length) {
+        newEventButton.addEventListener('click', onNewEventButtonClick);
+      }
+    });
+  });
+});

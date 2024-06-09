@@ -48,11 +48,14 @@ export default class PointPresenter {
       onFavoriteClick: this.#handleFavoriteClick,
     });
 
-    /* this.#editPointComponent = new EditPointView({
+    this.#editPointComponent = new EditPointView({
       point: this.#point,
+      offersByType: this.#offersByType,
+      destinations: this.#destinations,
+      destinationNames: this.#destinationNames,
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
-    }); */
+    });
 
     if (prevPointComponent === null || prevEditPointComponent === null) {
       render(this.#pointComponent, this.#pointListContainer);
