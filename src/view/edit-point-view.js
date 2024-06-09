@@ -170,10 +170,6 @@ export default class EditPointView extends AbstractStatefulView {
     this.updateElement({ type: newType });
   };
 
-  #offersChangeHandler = (evt) => {
-    evt.preventDefault();
-  };
-
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit(EditPointView.parseStateToPoint(this._state));
@@ -269,8 +265,6 @@ export default class EditPointView extends AbstractStatefulView {
 
   _restoreHandlers() {
     this._setHandlers();
-
-    this.element.querySelector('.event__available-offers').addEventListener('change', this.#offersChangeHandler);
 
     this.element.querySelector('.event__type-list').addEventListener('change', this.#typeChangeHandler);
   }

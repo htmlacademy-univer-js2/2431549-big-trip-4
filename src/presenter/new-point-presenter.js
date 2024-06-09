@@ -1,5 +1,4 @@
 import { remove, render, RenderPosition } from '../framework/render.js';
-import { nanoid } from 'nanoid';
 import { UserAction, UpdateType, TYPES } from '../const.js';
 import EditPointView from '../view/edit-point-view.js';
 import dayjs from 'dayjs';
@@ -38,7 +37,6 @@ export default class NewPointPresenter {
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick
     });
-
     render(this.#editPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
 
     document.addEventListener('keydown', this.#escKeyDownHandler);
@@ -46,13 +44,14 @@ export default class NewPointPresenter {
 
   #generateDefaultPoint() {
     return {
+      id: crypto.randomUUID(),
       basePrice: 0,
       dateFrom: dayjs().toDate(),
       dateTo: dayjs().add(1, 'm').toDate(),
       destination: this.#destinations[0].id,
       isFavorite: false,
       offers: [],
-      type: TYPES[0],
+      type: TYPES[0].title,
     };
   }
 
@@ -69,11 +68,11 @@ export default class NewPointPresenter {
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   }
 
-  #handleFormSubmit = (task) => {
+  #handleFormSubmit = (point) => {
     this.#handleDataChange(
-      UserAction.ADD_TASK,
+      UserAction.ADD_POINT,
       UpdateType.MINOR,
-      { id: nanoid(), ...task },
+      point,
     );
     this.destroy();
   };
@@ -88,5 +87,4 @@ export default class NewPointPresenter {
       this.destroy();
     }
   };
-
 }

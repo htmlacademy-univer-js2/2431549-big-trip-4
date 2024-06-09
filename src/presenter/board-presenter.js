@@ -110,7 +110,7 @@ export default class BoardPresenter {
           break;
         }
         this.#newPointPresenter = new NewPointPresenter({
-          taskListContainer: this.#eventListComponent.element,
+          pointListContainer: this.#eventListComponent.element,
           offersByType: this.#offerModel,
           destinations: this.#destinationModel.destinations,
           destinationNames: this.#destinationModel.destinationNames,

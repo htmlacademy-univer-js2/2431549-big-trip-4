@@ -40,7 +40,7 @@ const boardPresenter = new BoardPresenter(
     offerModel,
     destinationModel,
     filterModel,
-    onAddFormClose,
+    onNewPointDestroy: onAddFormClose,
   });
 
 

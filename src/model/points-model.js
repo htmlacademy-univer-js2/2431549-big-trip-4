@@ -52,7 +52,7 @@ export default class PointsModel extends Observable {
       this.#points = [newPoint, ...this.#points];
       this._notify(updateType, newPoint);
     } catch (err) {
-      throw new Error('Can\'t add task');
+      throw new Error('Can\'t add point');
     }
   }
 
